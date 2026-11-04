@@ -1,0 +1,30 @@
+services:
+  a:
+    build: ./a
+    ports:
+      - "8080:5000"
+    environment:
+      - URL_B=http://b:8080
+    depends_on:
+      - b
+
+  b:
+    build: ./b
+    expose:
+      - "8080"
+    environment:
+      - URL_C=http://c:8080
+    depends_on:
+      - c
+
+  c:
+    build: ./c
+    expose:
+      - "8080"
+    environment:
+      - DATA_DIR=/data
+    volumes:
+      - c-data:/data
+
+volumes:
+  c-data:
